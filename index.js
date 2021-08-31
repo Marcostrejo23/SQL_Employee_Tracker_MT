@@ -47,3 +47,81 @@ const roles = () => {
         }
     }
     )};
+
+const insertD=()=>{
+    inquirer.prompt([
+        {
+            type:"input",
+            message:"What is the departments name?",
+            name:"name"
+        }
+    ]).then(answers => {
+        db.query(`INSERT INTO departments (name) VALUES(?)`,[answers.name],(err,data) => {
+            if(err){
+                console.log(err);
+                db.end();
+            } else {
+                console.log("department added!");
+                departments();
+            }
+        })
+
+    })
+};
+
+const insertE = () => {
+    db.query("SELECT * FROM roles", (err,data)=>{
+        if(err){console.log(err)
+            db.end();
+        }else {
+        const insertEmployee = data.map( role => {
+            return {
+            name: role.title,
+            value:role.id
+            }
+        });
+    inquirer
+    .prompt([
+        {
+            type:"list",
+            message:"What is the title of the employee?",
+            choices:insertEmployee,
+            name:"role_id"
+        },
+        {
+            type:"input",
+            message:"What is the first name of the employee?",
+            name:"first_name"
+        },
+        {
+            type:"input",
+            message:"What is the last name of the employee?",
+            name:"last_name"
+        },
+        {
+            type:"input",
+            message:"What is the last name of the employee?",
+            name:"last_name"
+        },
+        {
+            type:"input",
+            message:"What is the employee_id for the manager of the new employee?",
+            name:"manager_id"
+        }
+
+    ]).then(answers => {
+        db.query(`INSERT INTO employees (first_name,last_name,role_id, manager_id) VALUES(?,?,?,?)`,
+        [answers.first_name,answers.last_name,answers.role_id,answers.manager_id],(err,data) => {
+            if(err){
+                console.log(err);
+                db.destroy();
+            } else {
+                console.log("employee has been added successfully");
+                roles();
+            }
+        }
+        )
+    });
+}
+})
+};
