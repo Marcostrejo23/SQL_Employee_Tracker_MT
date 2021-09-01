@@ -12,38 +12,37 @@ const db = mysql.createConnection(
 );
 
 const departments = () =>{
-    db.query("SELECT * FROM departments", (err,data)=>{
-        if(err){
-            console.log(err)
-            db.end();
-        }else{
-            console.log('working')
-            console.log(data);
-            main()
-        }
-    })
-};
-
-const employees = () => {
-    db.query("SELECT  employees.first_name, employees.last_name, employees.id, employees.manager_id, roles.salary, roles.title,  roles.department_id, departments.name FROM employees JOIN roles on employees.role_id=roles.id JOIN departments ON roles.department_id=departments.id", (err,data)=>{
-    if(err){
-        console.log(err)
-        db.end();
-    }else{
-        console.table(data);
-        main();
-    }
-}
-)};
-
-const roles = () => {
-    db.query("SELECT roles.title AS title, salary, departments.name AS department FROM roles JOIN departments ON roles.department_id=departments.id", (err,data)=>{
+    db.query("SELECT * FROM department", (err,data)=>{
         if(err){
             console.log(err)
             db.end();
         }else{
             console.table(data);
-            main();
+           main()
+        }
+    })
+};
+
+const employees = () => {
+    db.query("SELECT  employees.first_name, employees.last_name, employees.id, employees.manager_id, roles.salary, roles.title, roles.department_id, department.name FROM employees JOIN roles on employees.role_id=roles.id JOIN department ON roles.department_id=department.id", (err,data)=>{
+    if(err){
+        console.log(err)
+        db.end();
+    }else{
+        console.table(data);
+       main();
+    }
+}
+)};
+
+const roles = () => {
+    db.query("SELECT roles.title AS title, salary, department.name AS department FROM roles JOIN department ON roles.department_id=department.id", (err,data)=>{
+        if(err){
+            console.log(err)
+            db.end();
+        }else{
+            console.table(data);
+           main();
         }
     }
     )};
@@ -56,7 +55,7 @@ const insertD=()=>{
             name:"name"
         }
     ]).then(answers => {
-        db.query(`INSERT INTO departments (name) VALUES(?)`,[answers.name],(err,data) => {
+        db.query(`INSERT INTO department (name) VALUES(?)`,[answers.name],(err,data) => {
             if(err){
                 console.log(err);
                 db.end();
@@ -126,7 +125,7 @@ const insertE = () => {
 };
 
 
-const actions= ()=>{
+const main= ()=>{
     inquirer.prompt({
         type: "list",
         choices: ["departments","roles","employees","add new department","add new role","add new employees","finished"],
@@ -160,4 +159,4 @@ const actions= ()=>{
     })
 }
 
-actions();
+main();

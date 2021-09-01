@@ -1,0 +1,23 @@
+{
+  "name": "sql_employee_tracker_mt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marcostrejo23/SQL_Employee_Tracker_MT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marcostrejo23/SQL_Employee_Tracker_MT/issues"
+  },
+  "homepage": "https://github.com/Marcostrejo23/SQL_Employee_Tracker_MT#readme",
+  "dependencies": {
+    "inquirer": "^8.1.2",
+    "mysql2": "^2.3.0"
+  }
+}
