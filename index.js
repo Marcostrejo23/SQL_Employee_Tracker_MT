@@ -25,7 +25,7 @@ const departments = () =>{
 };
 
 const employees = () => {
-    db.query("SELECT employees.id, employees.first_name, employees.last_name, employees.manager_id, roles.title, roles.salary, roles.department_id, departments.name FROM employees JOIN roles on employees.role_id=roles.id JOIN departments ON roles.department_id=departments.id", (err,data)=>{
+    db.query("SELECT  employees.first_name, employees.last_name, employees.id, employees.manager_id, roles.salary, roles.title,  roles.department_id, departments.name FROM employees JOIN roles on employees.role_id=roles.id JOIN departments ON roles.department_id=departments.id", (err,data)=>{
     if(err){
         console.log(err)
         db.end();
@@ -80,8 +80,7 @@ const insertE = () => {
             value:role.id
             }
         });
-    inquirer
-    .prompt([
+    inquirer.prompt([
         {
             type:"list",
             message:"What is the title of the employee?",
@@ -117,7 +116,7 @@ const insertE = () => {
                 db.destroy();
             } else {
                 console.log("employee has been added successfully");
-                roles();
+                employees();
             }
         }
         )
@@ -125,3 +124,40 @@ const insertE = () => {
 }
 })
 };
+
+
+const actions= ()=>{
+    inquirer.prompt({
+        type: "list",
+        choices: ["departments","roles","employees","add new department","add new role","add new employees","finished"],
+        message: "which would you like to do?",
+        name: "options"
+    }).then(({options}) =>{
+        switch(options){
+            case "departments":
+                departments();
+                break;
+           case "add new department":
+               insertD();
+               break;
+            case "roles":
+                roles();
+                break;
+            case "add new role":
+                insertE();
+            case "employees":
+                employees();
+                break;
+            case "add new employee":
+                insertE();
+                break;
+            default:
+                console.log("goodbye");
+                db.end()
+                break;
+            
+        }
+    })
+}
+
+actions();
