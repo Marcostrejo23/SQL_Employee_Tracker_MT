@@ -17,7 +17,7 @@ const departments = () =>{
             console.log(err)
             db.end();
         }else{
-            console.table(data);
+        console.table(data);
            main()
         }
     })
