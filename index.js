@@ -120,17 +120,60 @@ const insertE = () => {
 })
 };
 
+const insertR = () => {
+    db.query("SELECT * FROM department", (err,data)=>{
+        if(err){console.log(err)
+            db.end();
+        }else {const depart = data.map( department => {
+            return {
+            name: department.name,
+            value:department.id
+            }
+        })
+    inquirer.prompt([
+        {
+            type:"list",
+            message:"What department is the new role",
+            choices:depart,
+            name:"department_id"
+        },
+        {
+            type:"input",
+            message:"What is the title?",
+            name:"title"
+        },
+        {
+            type:"input",
+            message:"What is the salary?",
+            name:"salary"
+        }
+    ]).then(answers => {
+        db.query(`INSERT INTO roles (title,salary,department_id) VALUES(?,?,?)`,
+        [answers.title,answers.salary,answers.department_id],(err,data) => {
+            if(err){
+                console.log(err);
+                db.destroy();
+            } else {
+                console.log("role added!");
+                roles();
+            }
+        }
+        )
+    });
+}
+})
+};
 
 const main= ()=>{
     inquirer.prompt({
         type: "list",
-        choices: ["departments","roles","employees","add new department","add new role","add new employees","finished"],
+        choices: ["department","roles","employees","add new department","add new role","add new employees","finished"],
         message: "which would you like to do?",
         name: "options"
     }).then(({options}) =>{
         console.log(options)
         switch(options){
-            case "departments":
+            case "department":
                 departments();
                 break;
            case "add new department":
@@ -140,7 +183,7 @@ const main= ()=>{
                 roles();
                 break;
             case "add new role":
-                insertE();
+                insertR();
             case "employees":
                 employees();
                 break;
