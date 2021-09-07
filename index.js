@@ -79,6 +79,7 @@ const insertE = () => {
             value:role.id
             }
         });
+        console.log(insertEmployee)
     inquirer.prompt([
         {
             type:"list",
@@ -127,6 +128,7 @@ const main= ()=>{
         message: "which would you like to do?",
         name: "options"
     }).then(({options}) =>{
+        console.log(options)
         switch(options){
             case "departments":
                 departments();
@@ -142,7 +144,7 @@ const main= ()=>{
             case "employees":
                 employees();
                 break;
-            case "add new employee":
+            case "add new employees":
                 insertE();
                 break;
             default:
@@ -153,5 +155,4 @@ const main= ()=>{
         }
     })
 }
-
 main();
