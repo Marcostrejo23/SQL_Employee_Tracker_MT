@@ -98,11 +98,6 @@ const insertE = () => {
         },
         {
             type:"input",
-            message:"What is the last name of the employee?",
-            name:"last_name"
-        },
-        {
-            type:"input",
             message:"What is the employee_id for the manager of the new employee?",
             name:"manager_id"
         }
